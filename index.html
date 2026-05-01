@@ -85,40 +85,59 @@
 
 <script>
   const slides = [
-    { texto: "Inicializando...", imagem: "GRAN.jpg" },
-    { texto: "GRAN Faculdade", imagem: "GRAN2.png" },
-    { texto: "Engenharia de Software", imagem: "GRAN.jpg" },
+    
+    { texto: "GRAN Faculdade...", imagem: "GRAN2.png" },
+    { texto: "Engenharia de Software...", imagem: "GRAN.jpg" },
     { texto: "Aluna: Maria Clara Rocha", imagem: "GRAN2.png" },
-    { texto: "3o semestre", imagem: "GRAN.jpg" },
-    { texto: "Realidade Virtual (RV)", imagem: "GRAN2.png" },
-    { texto: "Realidade Aumentada (RA)", imagem: "GRAN.jpg" }
+    { texto: "3o semestre...", imagem: "GRAN.jpg" },
+    { texto: "Realidade Virtual (RV)...", imagem: "GRAN2.png" },
+    { texto: "Realidade Aumentada (RA)...", imagem: "GRAN.jpg" }
   ];
 
   let indice = 0;
-  const tempoTotal = 2500;
-  const tempoFade = 400;
+  const tempoSlide = 3000;
+  const duracaoFade = 800;
+  const opacidadeMax = 0.85;
 
   const textoEl = document.querySelector("#status");
   const logoEl = document.querySelector("#logo");
 
-  function trocarSlide() {
-    // FADE OUT
-    logoEl.setAttribute("material", "opacity", 0);
+  function fade(opacidadeInicial, opacidadeFinal, duracao, callback) {
+    const inicio = performance.now();
 
-    setTimeout(() => {
-      // TROCA CONTEÚDO
+    function animar(agora) {
+      const progresso = Math.min((agora - inicio) / duracao, 1);
+      const valor = opacidadeInicial + (opacidadeFinal - opacidadeInicial) * progresso;
+
+      logoEl.setAttribute("material", "opacity", valor);
+
+      if (progresso < 1) {
+        requestAnimationFrame(animar);
+      } else if (callback) {
+        callback();
+      }
+    }
+
+    requestAnimationFrame(animar);
+  }
+
+  function trocarSlide() {
+    // Fade out suave
+    fade(opacidadeMax, 0, duracaoFade, () => {
+      // Troca conteúdo no meio do fade
       textoEl.setAttribute("value", slides[indice].texto);
       logoEl.setAttribute("material", "src", slides[indice].imagem);
 
-      // FADE IN
-      logoEl.setAttribute("material", "opacity", 0.85);
+      // Fade in suave
+      fade(0, opacidadeMax, duracaoFade);
 
       indice = (indice + 1) % slides.length;
-    }, tempoFade);
+    });
   }
 
-  setInterval(trocarSlide, tempoTotal);
+  setInterval(trocarSlide, tempoSlide);
 </script>
+``
 
 </body>
 </html>
