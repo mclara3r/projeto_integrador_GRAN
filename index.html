@@ -1,1 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>Projeto Integrador AR</title>
+
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
+  <!-- AR.js -->
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+</head>
+
+<body style="margin:0; overflow:hidden;">
+
+<a-scene
+  embedded
+  vr-mode-ui="enabled:false"
+  arjs="
+    sourceType: webcam;
+    debugUIEnabled: false;
+    smoothing: true;
+    smoothingCount: 10;
+    smoothingTolerance: 0.01;
+    smoothingThreshold: 5;
+  ">
+
+  <a-marker preset="hiro">
+
+    <!-- Ajuste para uso do marcador NA VERTICAL -->
+    <a-entity rotation="-90 0 0">
+
+      <!-- BLOCO DE TEXTOS (estável) -->
+      <a-entity position="0 0.25 -0.9">
+
+        <!-- TÍTULO AZUL -->
+        <a-text
+          value="Projeto Integrador - GRAN"
+          position="0 0.35 0.02"
+          align="center"
+          width="4"
+          color="#00FFFF"
+          material="depthTest:false">
+        </a-text>
+
+        <!-- PAINEL -->
+        <a-plane
+          position="0 0.05 0"
+          width="3"
+          height="0.7"
+          color="#000000"
+          opacity="0.75">
+        </a-plane>
+
+        <!-- TEXTO VERDE -->
+        <a-text
+          id="status"
+          value="Inicializando sistema..."
+          position="0 0.18 0.03"
+          align="center"
+          width="3"
+          color="#00FFAA"
+          material="depthTest:false">
+        </a-text>
+
+      </a-entity>
+
+      <!-- LOGO DO GRAN (imagem 2D em espaço 3D) -->
+      <a-plane
+        position="0 0.05 -0.55"
+        width="0.7"
+        height="0.7"
+        material="src: GRAN.jpg; transparent: true">
+
+        <!-- Rotação -->
+        <a-animation
+          attribute="rotation"
+          from="0 0 0"
+          to="0 360 0"
+          dur="6000"
+          easing="linear"
+          repeat="indefinite">
+        </a-animation>
+
+        <!-- Flutuação -->
+        <a-animation
+          attribute="position"
+          from="0 0.02 -0.55"
+          to="0 0.08 -0.55"
+          dur="2000"
+          direction="alternate"
+          easing="easeInOutSine"
+          repeat="indefinite">
+        </a-animation>
+
+      </a-plane>
+
+    </a-entity>
+  </a-marker>
+
+  <a-entity camera></a-entity>
+
+</a-scene>
+
+<script>
+  const mensagens = [
+    "Inicializando sistema...",
+    "Carregando modulos...",
+    "Executando verificacoes...",
+    "Sistema estavel",
+    "Monitorando processos...",
+    "Sem erros detectados"
+  ];
+
+  let indice = 0;
+
+  setInterval(() => {
+    const texto = document.querySelector("#status");
+    if (texto) {
+      texto.setAttribute("value", mensagens[indice]);
+      indice = (indice + 1) % mensagens.length;
+    }
+  }, 2000);
+</script>
+
+</body>
+</html>
 
