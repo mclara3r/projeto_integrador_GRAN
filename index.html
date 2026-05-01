@@ -30,7 +30,7 @@
     <!-- Ajuste para marcador na vertical -->
     <a-entity rotation="-90 0 0">
 
-      <!-- BLOCO DE TEXTOS (HUD) -->
+      <!-- BLOCO DE TEXTOS -->
       <a-entity position="0 0.35 -1.0">
 
         <!-- TÍTULO -->
@@ -52,7 +52,7 @@
           opacity="0.75">
         </a-plane>
 
-        <!-- SUBTÍTULO DINÂMICO -->
+        <!-- SUBTÍTULO -->
         <a-text
           id="status"
           value="Inicializando..."
@@ -65,8 +65,9 @@
 
       </a-entity>
 
-      <!-- LOGO DO GRAN COMO PROJEÇÃO -->
+      <!-- IMAGEM PROJETADA (COM FADE) -->
       <a-plane
+        id="logo"
         position="0 -0.05 -0.55"
         width="0.7"
         height="0.7"
@@ -78,24 +79,13 @@
           shader: flat;
         ">
 
-        <!-- Rotação -->
+        <!-- Rotação suave -->
         <a-animation
           attribute="rotation"
           from="0 0 0"
           to="0 360 0"
           dur="8000"
           easing="linear"
-          repeat="indefinite">
-        </a-animation>
-
-        <!-- Flutuação controlada -->
-        <a-animation
-          attribute="position"
-          from="0 -0.07 -0.55"
-          to="0 -0.02 -0.55"
-          dur="2500"
-          direction="alternate"
-          easing="easeInOutSine"
           repeat="indefinite">
         </a-animation>
 
@@ -108,26 +98,57 @@
 
 </a-scene>
 
-<!-- SCRIPT DAS MENSAGENS -->
 <script>
   const mensagens = [
     "Inicializando...",
-    "GRAN Faculdade...",
-    "Engenharia de Software...",
+    "GRAN Faculdade",
+    "Engenharia de Software",
     "Aluna: Maria Clara Rocha",
-    "3o semestre...",
-    "Realidade Virtual (RV)...",
-    "Realidade Aumentada (RA)..."
+    "3° semestre",
+    "Realidade Virtual (RV)",
+    "Realidade Aumentada (RA)"
   ];
 
-  let indice = 0;
+  const imagens = [
+    "GRAN.jpg",
+    "GRAN2.png"
+  ];
+
+  let indiceTexto = 0;
+  let indiceImagem = 0;
 
   setInterval(() => {
     const texto = document.querySelector("#status");
-    if (texto) {
-      texto.setAttribute("value", mensagens[indice]);
-      indice = (indice + 1) % mensagens.length;
-    }
+    const logo = document.querySelector("#logo");
+
+    if (!texto || !logo) return;
+
+    // Atualiza texto
+    texto.setAttribute("value", mensagens[indiceTexto]);
+    indiceTexto = (indiceTexto + 1) % mensagens.length;
+
+    // Fade out
+    logo.setAttribute("animation__fadeout", {
+      property: "material.opacity",
+      to: 0,
+      dur: 500,
+      easing: "easeInOutQuad"
+    });
+
+    // Troca imagem no meio do fade
+    setTimeout(() => {
+      indiceImagem = (indiceImagem + 1) % imagens.length;
+      logo.setAttribute("material", "src", imagens[indiceImagem]);
+
+      // Fade in
+      logo.setAttribute("animation__fadein", {
+        property: "material.opacity",
+        to: 0.85,
+        dur: 500,
+        easing: "easeInOutQuad"
+      });
+    }, 500);
+
   }, 2000);
 </script>
 
