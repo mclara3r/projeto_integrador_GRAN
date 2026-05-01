@@ -27,13 +27,12 @@
 
   <a-marker preset="hiro">
 
-    <!-- Ajuste para marcador na vertical -->
+    <!-- Marcador em pé -->
     <a-entity rotation="-90 0 0">
 
       <!-- BLOCO DE TEXTOS -->
       <a-entity position="0 0.35 -1.0">
 
-        <!-- TÍTULO -->
         <a-text
           value="Projeto Integrador"
           position="0 0.35 0.02"
@@ -43,7 +42,6 @@
           material="depthTest:false">
         </a-text>
 
-        <!-- PAINEL -->
         <a-plane
           position="0 0.05 0"
           width="3"
@@ -52,7 +50,6 @@
           opacity="0.75">
         </a-plane>
 
-        <!-- SUBTÍTULO -->
         <a-text
           id="status"
           value="Inicializando..."
@@ -65,7 +62,7 @@
 
       </a-entity>
 
-      <!-- IMAGEM PROJETADA (COM FADE) -->
+      <!-- IMAGEM PROJETADA -->
       <a-plane
         id="logo"
         position="0 -0.05 -0.55"
@@ -78,78 +75,49 @@
           depthTest: false;
           shader: flat;
         ">
-
-        <!-- Rotação suave -->
-        <a-animation
-          attribute="rotation"
-          from="0 0 0"
-          to="0 360 0"
-          dur="8000"
-          easing="linear"
-          repeat="indefinite">
-        </a-animation>
-
       </a-plane>
 
     </a-entity>
   </a-marker>
 
   <a-entity camera></a-entity>
-
 </a-scene>
 
 <script>
-  const mensagens = [
-    "Inicializando...",
-    "GRAN Faculdade",
-    "Engenharia de Software",
-    "Aluna: Maria Clara Rocha",
-    "3° semestre",
-    "Realidade Virtual (RV)",
-    "Realidade Aumentada (RA)"
+  const slides = [
+    { texto: "Inicializando...", imagem: "GRAN.jpg" },
+    { texto: "GRAN Faculdade", imagem: "GRAN2.png" },
+    { texto: "Engenharia de Software", imagem: "GRAN.jpg" },
+    { texto: "Aluna: Maria Clara Rocha", imagem: "GRAN2.png" },
+    { texto: "3o semestre", imagem: "GRAN.jpg" },
+    { texto: "Realidade Virtual (RV)", imagem: "GRAN2.png" },
+    { texto: "Realidade Aumentada (RA)", imagem: "GRAN.jpg" }
   ];
 
-  const imagens = [
-    "GRAN.jpg",
-    "GRAN2.png"
-  ];
+  let indice = 0;
+  const tempoTotal = 2500;
+  const tempoFade = 400;
 
-  let indiceTexto = 0;
-  let indiceImagem = 0;
+  const textoEl = document.querySelector("#status");
+  const logoEl = document.querySelector("#logo");
 
-  setInterval(() => {
-    const texto = document.querySelector("#status");
-    const logo = document.querySelector("#logo");
+  function trocarSlide() {
+    // FADE OUT
+    logoEl.setAttribute("material", "opacity", 0);
 
-    if (!texto || !logo) return;
-
-    // Atualiza texto
-    texto.setAttribute("value", mensagens[indiceTexto]);
-    indiceTexto = (indiceTexto + 1) % mensagens.length;
-
-    // Fade out
-    logo.setAttribute("animation__fadeout", {
-      property: "material.opacity",
-      to: 0,
-      dur: 500,
-      easing: "easeInOutQuad"
-    });
-
-    // Troca imagem no meio do fade
     setTimeout(() => {
-      indiceImagem = (indiceImagem + 1) % imagens.length;
-      logo.setAttribute("material", "src", imagens[indiceImagem]);
+      // TROCA CONTEÚDO
+      textoEl.setAttribute("value", slides[indice].texto);
+      logoEl.setAttribute("material", "src", slides[indice].imagem);
 
-      // Fade in
-      logo.setAttribute("animation__fadein", {
-        property: "material.opacity",
-        to: 0.85,
-        dur: 500,
-        easing: "easeInOutQuad"
-      });
-    }, 500);
+      // FADE IN
+      logoEl.setAttribute("material", "opacity", 0.85);
 
-  }, 2000);
+      indice = (indice + 1) % slides.length;
+    }, tempoFade);
+  }
+
+  setInterval(trocarSlide, tempoTotal);
 </script>
 
 </body>
