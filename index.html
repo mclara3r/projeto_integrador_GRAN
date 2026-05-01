@@ -27,11 +27,11 @@
 
   <a-marker preset="hiro">
 
-    <!-- Ajuste para marcador em pé -->
+    <!-- Ajuste para marcador em posição VERTICAL -->
     <a-entity rotation="-90 0 0">
 
-      <!-- BLOCO DE TEXTO -->
-      <a-entity position="0 0.25 -0.9">
+      <!-- BLOCO DE TEXTOS (HUD) -->
+      <a-entity position="0 0.35 -1.0">
 
         <!-- TÍTULO AZUL -->
         <a-text
@@ -65,9 +65,9 @@
 
       </a-entity>
 
-      <!-- LOGO COMO PROJEÇÃO (HUD) -->
+      <!-- LOGO DO GRAN COMO PROJEÇÃO (HUD) -->
       <a-plane
-        position="0 0.05 -0.55"
+        position="0 -0.05 -0.55"
         width="0.7"
         height="0.7"
         material="
@@ -78,7 +78,7 @@
           shader: flat;
         ">
 
-        <!-- Rotação suave -->
+        <!-- Rotação -->
         <a-animation
           attribute="rotation"
           from="0 0 0"
@@ -88,11 +88,11 @@
           repeat="indefinite">
         </a-animation>
 
-        <!-- Flutuação -->
+        <!-- Flutuação controlada (não invade os textos) -->
         <a-animation
           attribute="position"
-          from="0 0.03 -0.55"
-          to="0 0.08 -0.55"
+          from="0 -0.07 -0.55"
+          to="0 -0.02 -0.55"
           dur="2500"
           direction="alternate"
           easing="easeInOutSine"
