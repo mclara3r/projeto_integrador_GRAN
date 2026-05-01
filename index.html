@@ -27,13 +27,13 @@
 
   <a-marker preset="hiro">
 
-    <!-- Ajuste para marcador em posição VERTICAL -->
+    <!-- Ajuste para marcador na vertical -->
     <a-entity rotation="-90 0 0">
 
       <!-- BLOCO DE TEXTOS (HUD) -->
       <a-entity position="0 0.35 -1.0">
 
-        <!-- TÍTULO AZUL -->
+        <!-- TÍTULO -->
         <a-text
           value="Projeto Integrador - GRAN"
           position="0 0.35 0.02"
@@ -52,7 +52,7 @@
           opacity="0.75">
         </a-plane>
 
-        <!-- TEXTO VERDE -->
+        <!-- SUBTÍTULO DINÂMICO -->
         <a-text
           id="status"
           value="Inicializando..."
@@ -65,7 +65,7 @@
 
       </a-entity>
 
-      <!-- LOGO DO GRAN COMO PROJEÇÃO (HUD) -->
+      <!-- LOGO DO GRAN COMO PROJEÇÃO -->
       <a-plane
         position="0 -0.05 -0.55"
         width="0.7"
@@ -88,7 +88,7 @@
           repeat="indefinite">
         </a-animation>
 
-        <!-- Flutuação controlada (não invade os textos) -->
+        <!-- Flutuação controlada -->
         <a-animation
           attribute="position"
           from="0 -0.07 -0.55"
@@ -108,15 +108,16 @@
 
 </a-scene>
 
+<!-- SCRIPT DAS MENSAGENS -->
 <script>
   const mensagens = [
     "Inicializando...",
     "GRAN Faculdade...",
     "Engenharia de Software...",
     "Aluna: Maria Clara Rocha",
-    "3º semestre...",
-    "Realidade Virtual (RV),
-    "Realidade Aumentada(RA)"
+    "3o semestre...",
+    "Realidade Virtual (RV)...",
+    "Realidade Aumentada (RA)..."
   ];
 
   let indice = 0;
